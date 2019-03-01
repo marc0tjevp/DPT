@@ -1,0 +1,7 @@
+{
+    "port": 8080,
+    "databases": {
+        "mongo": "mongodb://localhost/dpt",
+        "mongo-test": "mongodb://localhost/dpt_test"
+    }
+}

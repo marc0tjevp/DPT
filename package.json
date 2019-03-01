@@ -1,0 +1,26 @@
+{
+  "name": "dominos-pizza-teacher",
+  "version": "1.0.0",
+  "description": "Domino's Pizza Teacher",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marc0tjevp/DPT.git"
+  },
+  "author": "Marco van Poortvliet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marc0tjevp/DPT/issues"
+  },
+  "homepage": "https://github.com/marc0tjevp/DPT#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "boxen": "^2.1.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0",
+    "morgan": "^1.9.1"
+  }
+}
