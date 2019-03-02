@@ -5,11 +5,76 @@ const Ingredient = require('../models/schemas/ingredient.schema').Ingredient
     Returns all pizza's from database
 */
 let getAllPizzas = (req, res) => {
-    Pizza.find({}, (error, pizzas) => {
-        if (!error) res.status(200).json(pizzas).end()
+
+    // Look for the pizza with name
+    if (req.query.name) {
+        Pizza.find({
+            name: {
+                '$regex': req.query.name,
+                '$options': 'i'
+            }
+        }, (error, pizza) => {
+            if (!error) res.status(200).json(pizza).end()
+            else res.status(error.status || 500).json(error).end
+        })
+    }
+
+    // Return all pizza's if there's no named parameters
+    else {
+        Pizza.find({}, (error, pizzas) => {
+            if (!error) res.status(200).json(pizzas).end()
+            else res.status(error.status || 500).json(error).end()
+        })
+    }
+}
+
+/*
+    Get pizza by ID
+*/
+let getPizzaByID = (req, res) => {
+
+    let id = req.params.id || ''
+
+    if (id == '') {
+        res.status(412).end()
+        return
+    }
+
+    Pizza.findOne({
+        _id: id
+    }, (error, pizza) => {
+        if (!error) res.status(200).json(pizza).end()
         else res.status(error.status || 500).json(error).end()
     })
 }
+
+/*
+    Return a random pizza
+*/
+let getRandomPizza = (req, res) => {
+
+    // Count pizza's
+    Pizza.count().exec((error, count) => {
+
+        // Catch errors
+        if (error) {
+            res.status(error.status || 500).json(error).end()
+            return
+        }
+
+        // Get a random entry
+        let random = Math.floor(Math.random() * count)
+
+        // Query all pizza's but only fetch the offset
+        Pizza.findOne().skip(random).exec((error, pizza) => {
+            if(!error) res.status(200).json(pizza).end()
+            else res.status(error.status || 500).json(error).end()
+        })
+
+    })
+
+}
+
 
 /* 
     Inserts a pizza into the database
@@ -37,6 +102,9 @@ let insertPizza = (req, res) => {
         Ingredient.find({
             name: i
         }, (error, ingredient) => {
+
+            // Catch errors
+            if (error) res.status(error.status || 500).json(error).end()
 
             // Push the found ingredient to the temp array
             ingredientsTemp.push(ingredient[0])
@@ -68,6 +136,8 @@ let insertPizza = (req, res) => {
 }
 
 module.exports = {
+    getPizzaByID,
     getAllPizzas,
-    insertPizza
+    insertPizza,
+    getRandomPizza
 }
