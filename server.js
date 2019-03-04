@@ -2,6 +2,10 @@
 const express = require('express')
 const app = module.exports = express();
 
+// CORS
+var cors = require('cors')
+app.use(cors())
+
 // Configuration
 const config = require('./config/config.json')
 const port = process.env.PORT || config.port;

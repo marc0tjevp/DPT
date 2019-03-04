@@ -85,14 +85,16 @@ let insertPizza = (req, res) => {
 
     let name = req.body.name || ''
     let ingredients = req.body.ingredients || []
-    let vegan = req.body.vegan || ''
-    let promo = req.body.promo || ''
-    let gluten = req.body.gluten || ''
+    let vegan = req.body.vegan
+    let promo = req.body.promo
+    let gluten = req.body.gluten
     let ingredientsTemp = []
     let counter = 0;
 
+    console.log(req.body)
+
     // Check for missing params
-    if (name == '' || vegan == '' || promo == '' || gluten == '') {
+    if (name == '') {
         res.status(412).end()
         return
     }
